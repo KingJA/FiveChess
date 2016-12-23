@@ -27,8 +27,11 @@ public class SessonPool {
             WebSocketSession otherSocketSession = socketSessionsList.remove(0);
             socketSessionsMap.put(socketSession.getId(), otherSocketSession);
             socketSessionsMap.put(otherSocketSession.getId(), socketSession);
+            //通知对手
+            //通知自己
         } else {
             socketSessionsList.add(socketSession);
+            //通知自己
         }
     }
 
