@@ -23,11 +23,11 @@ var myWin = [];
 /*对方赢统计数组*/
 var otherWin = [];
 
-var ws = null;
+var webSocket = null;
 var url = null;
 
-updateUrl("/websocket");
-connect();
+// updateUrl("/websocket");
+connect("/websocket");
 
 initvailableArea();
 drawBackground();
@@ -114,7 +114,7 @@ chess.onclick = function (e) {
 
     if (!history[i][j]) {//可落子
         onStep(i, j, true);//绘制落子
-        history[i][j] = 1 ;
+        history[i][j] = 1;
 
         sendMsg(i, j, false);//发送服务器
         myTurn = false;
@@ -207,46 +207,53 @@ function drawBackground() {
     }
 
 }
-function connect() {
-    if (!url) {
-        alert('Select whether to use W3C WebSocket or SockJS');
-        return;
+/**
+ * 建立WebSocket连接
+ * @param urlPath
+ */
+function connect(urlPath) {
+    if (!("WebSocket" in window)) {
+        alert("当前浏览器不支持WebSocket，请更换浏览器或者升级到最新版本");
     }
 
-    ws = new WebSocket(url);
-
-    ws.onopen = function () {
+    if (window.location.protocol == 'http:') {
+        url = 'ws://' + window.location.host + urlPath;
+    } else {
+        url = 'wss://' + window.location.host + urlPath;
+    }
+    webSocket = new WebSocket(url);
+    initWebSocket();
+}
+/**
+ * 初始化WebSocket
+ */
+function initWebSocket() {
+    webSocket.onopen = function () {
     };
-    ws.onmessage = function (event) {
+    webSocket.onmessage = function (event) {
         myTurn = true;
         var jsonObject = JSON.parse(event.data);
         onStep(jsonObject.i, jsonObject.j, false)
-        if(jsonObject.otherWin) {
+        if (jsonObject.otherWin) {
             showWinModal("对方赢了，再来一局吧");
         }
     };
-    ws.onclose = function (event) {
+    webSocket.onclose = function (event) {
+
     };
 }
-
+/**
+ * 发送信息
+ * @param i
+ * @param j
+ * @param win
+ */
 function sendMsg(i, j, win) {
-    if (ws != null) {
+    if (webSocket != null) {
         var msg = JSON.stringify({"i": i, "j": j, "otherWin": win});
-        ws.send(msg);
+        webSocket.send(msg);
     } else {
         alert('connection not established, please connect.');
     }
 }
 
-function updateUrl(urlPath) {
-    if (urlPath.indexOf('sockjs') != -1) {
-        url = urlPath;
-    }
-    else {
-        if (window.location.protocol == 'http:') {
-            url = 'ws://' + window.location.host + urlPath;
-        } else {
-            url = 'wss://' + window.location.host + urlPath;
-        }
-    }
-}
