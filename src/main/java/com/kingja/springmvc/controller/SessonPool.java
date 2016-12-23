@@ -1,6 +1,8 @@
 package com.kingja.springmvc.controller;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Map;
  * Email:kingjavip@gmail.com
  */
 public class SessonPool {
+    private Gson gson = new Gson();
     private static List<WebSocketSession> socketSessionsList = new ArrayList<WebSocketSession>();
     private static Map<String, WebSocketSession> socketSessionsMap = new HashMap<String, WebSocketSession>();//我的SessonId/对方的Sesson
 
@@ -23,6 +26,7 @@ public class SessonPool {
      * @param socketSession
      */
     public void setPair(WebSocketSession socketSession) {
+        JsonObject jsonObject = new JsonObject();
         if (socketSessionsList.size() > 0) {
             WebSocketSession otherSocketSession = socketSessionsList.remove(0);
             socketSessionsMap.put(socketSession.getId(), otherSocketSession);

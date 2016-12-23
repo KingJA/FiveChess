@@ -26,7 +26,7 @@ public class ChatHandler extends TextWebSocketHandler {
 			TextMessage message) throws Exception {
 		super.handleTextMessage(session, message);
 		System.out.println("message"+message.getPayload());
-		Gson gson = new Gson();
+
 		sendAll(session, message);
 	}
 
