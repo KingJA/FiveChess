@@ -34,9 +34,9 @@ public class SessonPool {
             socketSessionsMap.put(socketSession.getId(), otherSocketSession);
             socketSessionsMap.put(otherSocketSession.getId(), socketSession);
             //通知对手 我的Id
-            TextMessage msgSend2Other = new TextMessage("{\"resultCode\":1,\"otherName\":"+socketSession.getId()+"}");
+            TextMessage msgSend2Other = new TextMessage("{\"resultCode\":11,\"otherName\":"+socketSession.getId()+"}");
             //通知自己 对手的Id
-            TextMessage msgSend2Me = new TextMessage("{\"resultCode\":1,\"otherName\":"+otherSocketSession.getId()+"}");
+            TextMessage msgSend2Me = new TextMessage("{\"resultCode\":10,\"otherName\":"+otherSocketSession.getId()+"}");
             try {
                 otherSocketSession.sendMessage(msgSend2Other);
                 socketSession.sendMessage(msgSend2Me);

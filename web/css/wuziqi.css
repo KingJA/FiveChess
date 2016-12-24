@@ -71,12 +71,15 @@
 .head {
     border: 2px solid #ee9d58;
 }
-#status{
-    font-family: Impact;
-    color: #1e1e1e;
+.statusP{
     line-height: 80px;
     text-align: center;
+
+}
+#status {
     font-size: 30px;
+    font-family: Impact;
+    color: #1e1e1e;
 }
 .top{
     height: 80px;

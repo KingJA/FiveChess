@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <title>绝杀五子君</title>
-  <link rel="stylesheet" href="/css/wuziqi.css?v=1.0">
+  <link rel="stylesheet" href="/css/wuziqi.css?v=1.1">
 </head>
 <body>
 <div class="container">
 
- <div class="top"><p id="status">等待玩家...</p></div>
+ <div class="top"><p class="statusP"><span id="statusText">等待玩家进入</span></p></div>
 <div class="left">  <div class="user">
   <p class="des"> <img class="head" src="" width="200px" height="200px" id="otherHead"></p>
   <p class="des"><span class="title" >玩家：</span><span class="text" id="otherName"></span></p>
@@ -36,6 +36,6 @@
 
 
 <script src="/js/jquery-3.1.1.min.js"></script>
-<script src="/js/wuziqi.js"></script>
+<script src="/js/wuziqi.js?v=1.0"></script>
 </body>
 </html>
