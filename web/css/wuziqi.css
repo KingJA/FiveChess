@@ -76,9 +76,8 @@
     text-align: center;
 
 }
-#status {
+#statusText {
     font-size: 30px;
-    font-family: Impact;
     color: #1e1e1e;
 }
 .top{

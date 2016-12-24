@@ -160,8 +160,8 @@ chess.onclick = function (e) {
                 if (myWin[k] == n) {
                     isOver = true;//结束
                     sendMsg(i, j, true);//通知服务器我赢了
-                    // window.alert("恭喜你赢了");
                     showWinModal("恭喜你赢了");
+                    statusText.innerHTML = "获胜";
                     isWin=true;
                 }
             }
@@ -171,10 +171,8 @@ chess.onclick = function (e) {
 
 function showWinModal(msg) {
     setTimeout(function () {
-        var check = confirm(msg);
-        if (check){
-            reStart();
-        }
+      alert(msg);
+      reStart();
     }, 100);
 }
 
@@ -282,6 +280,7 @@ function initWebSocket() {
             myTurn = true;
             if (jsonObject.otherWin) {
                 isWin=false;
+                statusText.innerHTML = "惜败";
                 showWinModal("对方赢了，再来一局吧");
             }else{
                 onStep(jsonObject.i, jsonObject.j, false)

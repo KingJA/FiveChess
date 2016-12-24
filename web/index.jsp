@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>绝杀五子君</title>
-  <link rel="stylesheet" href="/css/wuziqi.css?v=1.1">
+  <link rel="stylesheet" href="/css/wuziqi.css?v=1.2">
 </head>
 <body>
 <div class="container">
