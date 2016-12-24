@@ -6,8 +6,8 @@ var chess = document.getElementById("chess");
 var checkerboardSize = chess.width;
 var context = chess.getContext("2d");
 /*行列数*/
-var n = 5;
-var count = 15;
+var n = 2;
+var count = 2;
 var lineColor = "#a3a3a3";
 var perSize = checkerboardSize / (count + 1);
 var imageUrl = "/img/picture.jpg";
@@ -40,8 +40,10 @@ function initPage() {
 }
 
 function reStart() {
-    initVariable();
-    initGame();
+    setTimeout(function () {
+        initVariable();
+        initGame();
+    },100);
 }
 
 function initVariable() {
@@ -75,7 +77,7 @@ function initRule() {
             winCount++;
             for (var k = 0; k < n; k++) {
                 win[i][j + k][winCount] = true
-                // console.log("竖向的赢法[" + i + "][" + (j + k) + "][" + winCount + "]");
+                console.log("竖向的赢法[" + i + "][" + (j + k) + "][" + winCount + "]");
             }
 
         }
@@ -86,7 +88,7 @@ function initRule() {
             winCount++;
             for (var k = 0; k < n; k++) {
                 win[j + k][i][winCount] = true
-                // console.log("横向的赢法[" + (j + k) + "][" + i + "][" + winCount + "]");
+                console.log("横向的赢法[" + (j + k) + "][" + i + "][" + winCount + "]");
             }
 
         }
@@ -97,7 +99,7 @@ function initRule() {
             winCount++;
             for (var k = 0; k < n; k++) {
                 win[i + k][j + k][winCount] = true
-                // console.log("右斜向的赢法[" + (i + k) + "][" + (j + k) + "][" + winCount + "]");
+                console.log("右斜向的赢法[" + (i + k) + "][" + (j + k) + "][" + winCount + "]");
             }
 
         }
@@ -108,7 +110,7 @@ function initRule() {
             winCount++;
             for (var k = 0; k < n; k++) {
                 win[i + k][j - k][winCount] = true
-                // console.log("左斜向的赢法[" + (i + k) + "][" + (j - k) + "][" + winCount + "]");
+                console.log("左斜向的赢法[" + (i + k) + "][" + (j - k) + "][" + winCount + "]");
             }
 
         }
@@ -148,17 +150,17 @@ chess.onclick = function (e) {
     if (!history[i][j]) {//可落子
         onStep(i, j, true);//绘制落子
         history[i][j] = 1;
-
         sendMsg(i, j, false);//发送服务器
         myTurn = false;
         status.innerHTML = "对方落子";
         for (var k = 1; k <= winCount; k++) {
             if (win[i][j][k]) {
                 myWin[k]++;
-                otherWin[k] = 6;
-                if (myWin[k] == 5) {
+                otherWin[k] = n+1;
+                if (myWin[k] == n) {
                     isOver = true;//结束
                     sendMsg(i, j, true);//通知服务器我赢了
+                    // window.alert("恭喜你赢了");
                     showWinModal("恭喜你赢了");
                     isWin=true;
                 }
@@ -195,9 +197,9 @@ function onStep(i, j, me) {
         gradient.addColorStop(0, "#f9f9f9");
         gradient.addColorStop(1, "#a0a0a0");
     }
-
     context.fillStyle = gradient;
     context.fill();
+    console.log("落子完成")
 }
 
 
@@ -226,8 +228,6 @@ function drawLines() {
  * 绘制背景图片
  */
 function drawChess() {
-    console.log("清理画布："+checkerboardSize)
-    context.clearRect(0,0,checkerboardSize,checkerboardSize)
     console.log("绘制棋盘背景")
     image.src = imageUrl;
     image.onload = function () {
@@ -280,10 +280,11 @@ function initWebSocket() {
 
         } else if (jsonObject.resultCode == 8) {//玩家落子
             myTurn = true;
-            onStep(jsonObject.i, jsonObject.j, false)
             if (jsonObject.otherWin) {
                 isWin=false;
                 showWinModal("对方赢了，再来一局吧");
+            }else{
+                onStep(jsonObject.i, jsonObject.j, false)
             }
         }
 

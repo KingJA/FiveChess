@@ -36,6 +36,6 @@
 
 
 <script src="/js/jquery-3.1.1.min.js"></script>
-<script src="/js/wuziqi.js?v=1.0"></script>
+<script src="/js/wuziqi.js?v=1.1"></script>
 </body>
 </html>
