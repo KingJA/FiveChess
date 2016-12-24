@@ -1,12 +1,83 @@
-*{
-    margin: 0px;
-    padding:0px;
+@font-face {
+    font-family: Impact;
+    src: url("../font/impact.ttf");
+    font-family: taiji;
+    src: url("../font/taiji.otf");
 }
 
-#chess{
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: taiji;
+    font-size: 14px;
+}
+
+#chess {
     background: #eee1a2;
-    margin: 50px auto;
+    margin: 10px auto;
     display: block;
     border-radius: 10px;
-    box-shadow: -2px -2px 2px rgba(234, 234, 234, 0.93),5px 5px 5px rgba(190, 190, 190, 0.93);
+    box-shadow: -2px -2px 2px rgba(234, 234, 234, 0.93), 5px 5px 5px rgba(190, 190, 190, 0.93);
+}
+
+.left, .right {
+    background: #cfeeec;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(190, 190, 190, 0.93);
+}
+
+.left {
+    margin-top: 10px;
+    width: 25%;
+    float: left;
+    height: 500px;
+}
+
+.right {
+    margin-top: 10px;
+    width: 25%;
+    height: 500px;
+    float: right;
+}
+
+.middle {
+    float: left;
+    width: 50%;
+}
+
+.user {
+    margin: 80px auto;
+}
+
+.des {
+    text-align: center;
+    margin: 0.5em;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.text {
+    color: #b79469;
+    font-size: 16px;
+}
+
+.title {
+    color: #424242;
+}
+
+.head {
+    border: 2px solid #ee9d58;
+}
+#status{
+    font-family: Impact;
+    color: #1e1e1e;
+    line-height: 80px;
+    text-align: center;
+    font-size: 30px;
+}
+.top{
+    height: 80px;
 }

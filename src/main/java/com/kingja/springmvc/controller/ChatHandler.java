@@ -1,7 +1,6 @@
 package com.kingja.springmvc.controller;
 
 
-import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -56,8 +55,7 @@ public class ChatHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		UserPool.add(session);
 		System.out.println(session.getId()+" 建立连接");
-		//进入聊天室 在头像列表中增加头像
-		//增加当前聊天室人数
+		SessonPool.setPair(session);
 	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

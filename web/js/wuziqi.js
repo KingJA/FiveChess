@@ -28,9 +28,11 @@ var url = null;
 
 // updateUrl("/websocket");
 connect("/websocket");
-
 initvailableArea();
 drawBackground();
+
+var otherName = document.getElementById("otherName");
+var otherHead=document.getElementById("otherHead");
 
 for (var i = 1; i <= count; i++) {
     win[i] = [];
@@ -151,7 +153,7 @@ function onStep(i, j, me) {
     context.beginPath();
     context.arc(i * perSize, j * perSize, perSize / 3, 0, 2 * Math.PI);
     context.closePath();
-    var gradient = context.createRadialGradient(i * perSize, j * perSize, 0, i * perSize, j * perSize, perSize / 5);
+    var gradient = context.createRadialGradient(i * perSize, j * perSize, 0, i * perSize, j * perSize, perSize *0.25);
     if (me) {
         gradient.addColorStop(0, "#636766");
         gradient.addColorStop(1, "#0a0a0a");
@@ -231,12 +233,23 @@ function initWebSocket() {
     webSocket.onopen = function () {
     };
     webSocket.onmessage = function (event) {
-        myTurn = true;
+        console.log("接收到服务器的信息:"+event.data);
+
         var jsonObject = JSON.parse(event.data);
-        onStep(jsonObject.i, jsonObject.j, false)
-        if (jsonObject.otherWin) {
-            showWinModal("对方赢了，再来一局吧");
+            myTurn = true;
+
+        if (jsonObject.resultCode==1) {//玩家进场
+            console.log(jsonObject);
+            otherName.innerHTML=jsonObject.otherName;
+            otherHead.src="/img/head_3.jpg"
+        }else if (jsonObject.resultCode==8){//玩家落子
+            onStep(jsonObject.i, jsonObject.j, false)
+            if (jsonObject.otherWin) {
+                showWinModal("对方赢了，再来一局吧");
+            }
         }
+
+
     };
     webSocket.onclose = function (event) {
 
@@ -250,7 +263,7 @@ function initWebSocket() {
  */
 function sendMsg(i, j, win) {
     if (webSocket != null) {
-        var msg = JSON.stringify({"i": i, "j": j, "otherWin": win});
+        var msg = JSON.stringify({"resultCode": 8,"i": i, "j": j, "otherWin": win});
         webSocket.send(msg);
     } else {
         alert('connection not established, please connect.');
