@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/12/22.
  */
-window.onload=initPage;
+window.onload = initPage;
 var chess = document.getElementById("chess");
 var checkerboardSize = chess.width;
 var context = chess.getContext("2d");
@@ -16,7 +16,7 @@ var history = [];
 var myTurn = false;
 var isOver = false;
 var isPared = false;
-var isWin=false;
+var isWin = false;
 var winCount = 0;
 /*赢法数组*/
 var win = [];
@@ -25,23 +25,32 @@ var myWin = [];
 /*对方赢统计数组*/
 var otherWin = [];
 /*剩余时间，初始600秒*/
-var myLeftTime=3;
-var myTotleTime=0;
+var myLeftTime = 600;
+var myTotleTime = 0;
+var myTimeInterval;
+var global = {
+    myLeftTime: 600,
+    myTotleTime: 0
+};
 
 function startMyTime() {
-    var myTimeInterval=setInterval(function () {
-        showTime(myTotleTime,myTotle);
-        showTime(myLeftTime,myLeft);
-        if(myLeftTime==0) {
+    myTimeInterval = setInterval(function () {
+        showTime(myTotleTime, myTotle);
+        showTime(myLeftTime, myLeft);
+        if (myLeftTime == 0) {
             clearInterval(myTimeInterval);
             console.log("时间到了");
-        }else{
+        } else {
             myTotleTime++;
             myLeftTime--;
         }
-    },1000);
+    }, 1000);
 }
-function showTime(time,timeNode) {
+
+function stopMyTime() {
+    clearInterval(myTimeInterval);
+}
+function showTime(time, timeNode) {
     var min = Math.floor(time / 60);
     var sec = time % 60;
     min = min < 10 ? "0" + min : min;
@@ -67,17 +76,24 @@ function reStart() {
     setTimeout(function () {
         initVariable();
         initGame();
-    },100);
+    }, 100);
 }
 
 function initVariable() {
-     myTurn = isWin?true:false;
-    statusText.innerHTML =isWin? "我方落子":"对方落子";
-     isOver = false;
+    myTurn = isWin ? true : false;
+    statusText.innerHTML = isWin ? "我方落子" : "对方落子";
+    isOver = false;
 }
 function initGame() {
+    initTime();
     initRule();//初始化游戏逻辑
     drawChess();//绘制棋盘
+}
+function initTime() {
+    myLeftTime = global.myLeftTime;
+    myTotleTime = global.myTotleTime;
+    showTime(myTotleTime, myTotle);
+    showTime(myLeftTime, myLeft);
 }
 function initRule() {
     console.log("初始化游戏规则")
@@ -176,17 +192,18 @@ chess.onclick = function (e) {
         history[i][j] = 1;
         sendMsg(i, j, false);//发送服务器
         myTurn = false;
-        status.innerHTML = "对方落子";
+        statusText.innerHTML = "对方落子";
+        stopMyTime();
         for (var k = 1; k <= winCount; k++) {
             if (win[i][j][k]) {
                 myWin[k]++;
-                otherWin[k] = n+1;
+                otherWin[k] = n + 1;
                 if (myWin[k] == n) {
                     isOver = true;//结束
                     sendMsg(i, j, true);//通知服务器我赢了
                     showWinModal("恭喜你赢了");
                     statusText.innerHTML = "获胜";
-                    isWin=true;
+                    isWin = true;
                 }
             }
         }
@@ -195,8 +212,8 @@ chess.onclick = function (e) {
 
 function showWinModal(msg) {
     setTimeout(function () {
-      alert(msg);
-      reStart();
+        alert(msg);
+        reStart();
     }, 100);
 }
 

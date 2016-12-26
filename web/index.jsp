@@ -12,10 +12,10 @@
  <div class="top"><p class="statusP"><span id="statusText">等待玩家进入</span></p></div>
 <div class="left">  <div class="user">
   <p class="des"> <img class="head" src="" width="200px" height="200px" id="otherHead"></p>
-  <p class="des"><span class="title" >玩家：</span><span class="text" id="otherName"></span></p>
-  <p class="des"><span class="title">积分：</span><span class="text"></span></p>
-  <p class="des"><span class="title">落子时间：</span><span class="text"></span></p>
-  <p class="des"><span class="title">剩余时间：</span><span class="text"></span></p>
+  <p class="des"><span class="title" >玩家：</span><span class="text" id="otherName">--</span></p>
+  <p class="des"><span class="title">积分：</span><span class="text">--</span></p>
+  <p class="des"><span class="title">落子时间：</span><span class="text" id="otherTotleTime">--:--</span></p>
+  <p class="des"><span class="title">剩余时间：</span><span class="text" id="otherLeftTime">--:--</span></p>
 
 </div></div>
 <div class="middle">

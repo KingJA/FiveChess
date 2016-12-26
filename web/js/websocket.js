@@ -49,6 +49,8 @@ function initWebSocket() {
             isPared = true;
 
         } else if (jsonObject.resultCode == 8) {//玩家落子
+            statusText.innerHTML = "我方落子";
+            startMyTime();
             myTurn = true;
             if (jsonObject.otherWin) {
                 isWin=false;
