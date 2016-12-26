@@ -24,13 +24,37 @@ var win = [];
 var myWin = [];
 /*对方赢统计数组*/
 var otherWin = [];
+/*剩余时间，初始600秒*/
+var myLeftTime=3;
+var myTotleTime=0;
 
-var webSocket = null;
-var url = null;
+function startMyTime() {
+    var myTimeInterval=setInterval(function () {
+        showTime(myTotleTime,myTotle);
+        showTime(myLeftTime,myLeft);
+        if(myLeftTime==0) {
+            clearInterval(myTimeInterval);
+            console.log("时间到了");
+        }else{
+            myTotleTime++;
+            myLeftTime--;
+        }
+    },1000);
+}
+function showTime(time,timeNode) {
+    var min = Math.floor(time / 60);
+    var sec = time % 60;
+    min = min < 10 ? "0" + min : min;
+    sec = sec < 10 ? "0" + sec : sec;
+    timeNode.innerHTML = min + ":" + sec;
+}
+
 
 var otherName = document.getElementById("otherName");
 var otherHead = document.getElementById("otherHead");
 var statusText = document.getElementById("statusText");
+var myLeft = document.getElementById("myLeftTime");
+var myTotle = document.getElementById("myTotleTime");
 
 
 function initPage() {
@@ -234,65 +258,7 @@ function drawChess() {
     }
 
 }
-/**
- * 建立WebSocket连接
- * @param urlPath
- */
-function connect(urlPath) {
-    console.log("初始化WebSocket")
-    if (!("WebSocket" in window)) {
-        alert("当前浏览器不支持WebSocket，请更换浏览器或者升级到最新版本");
-    }
 
-    if (window.location.protocol == 'http:') {
-        url = 'ws://' + window.location.host + urlPath;
-    } else {
-        url = 'wss://' + window.location.host + urlPath;
-    }
-    webSocket = new WebSocket(url);
-    initWebSocket();
-}
-/**
- * 初始化WebSocket
- */
-function initWebSocket() {
-    webSocket.onopen = function () {
-    };
-    webSocket.onmessage = function (event) {
-        console.log("接收到服务器的信息:" + event.data);
-
-        var jsonObject = JSON.parse(event.data);
-
-
-        if (jsonObject.resultCode == 11) {//玩家进场,通知先来的人
-            myTurn = true;
-            isPared = true;
-            statusText.innerHTML = "我方落子";
-            otherName.innerHTML = jsonObject.otherName;
-            otherHead.src = "/img/head_3.jpg"
-        } else if (jsonObject.resultCode == 10) {//玩家进场,通知后来的人
-            otherName.innerHTML = jsonObject.otherName;
-            otherHead.src = "/img/head_3.jpg";
-            statusText.innerHTML = "对方落子";
-            isPared = true;
-
-        } else if (jsonObject.resultCode == 8) {//玩家落子
-            myTurn = true;
-            if (jsonObject.otherWin) {
-                isWin=false;
-                statusText.innerHTML = "惜败";
-                showWinModal("对方赢了，再来一局吧");
-            }else{
-                onStep(jsonObject.i, jsonObject.j, false)
-            }
-        }
-
-
-    };
-    webSocket.onclose = function (event) {
-
-    };
-}
 /**
  * 发送信息
  * @param i

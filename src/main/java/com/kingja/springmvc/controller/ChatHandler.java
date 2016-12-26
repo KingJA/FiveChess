@@ -25,7 +25,6 @@ public class ChatHandler extends TextWebSocketHandler {
 			TextMessage message) throws Exception {
 		super.handleTextMessage(session, message);
 		System.out.println("message"+message.getPayload());
-
 		sendAll(session, message);
 	}
 

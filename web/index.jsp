@@ -26,8 +26,8 @@
     <p class="des"> <img class="head"  src="/img/head_7.jpg" width="200px" height="200px"  id="myHead"></p>
     <p class="des"><span class="title" >玩家：</span><span class="text" id="myName">GM玩家</span></p>
     <p class="des"><span class="title">积分：</span><span class="text">0</span></p>
-    <p class="des"><span class="title">落子时间：</span><span class="text">00:00</span></p>
-    <p class="des"><span class="title">剩余时间：</span><span class="text">10:00</span></p>
+    <p class="des"><span class="title">落子时间：</span><span class="text" id="myTotleTime">--:--</span></p>
+    <p class="des"><span class="title">剩余时间：</span><span class="text" id="myLeftTime">--:--</span></p>
 
   </div>
 
@@ -36,6 +36,7 @@
 
 
 <script src="/js/jquery-3.1.1.min.js"></script>
+<script src="/js/websocket.js?v=1.2"></script>
 <script src="/js/wuziqi.js?v=1.1"></script>
 </body>
 </html>
